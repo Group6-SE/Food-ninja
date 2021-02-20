@@ -52,7 +52,7 @@ module.exports= class Customer {
                 if (error) {
                     reject(error);
                 };
-                resolve(console.log('doneeee'));
+                resolve("added to cart");
             }
         )
 
@@ -107,7 +107,7 @@ module.exports= class Customer {
                 if (error) {
                     reject(error);
                 };
-                resolve(console.log('doneeee'));
+                resolve("added to fav");
             }
         )
 

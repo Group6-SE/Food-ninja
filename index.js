@@ -11,4 +11,11 @@ dotenv.config({
 });
 
 const port = process.env.PORT || 3000;
-app.listen(3000, () => console.log(`Listening on port ${port}...`));
+const server =app.listen(3000, () => console.log(`Listening on port ${port}...`));
+
+if (process.env.NODE_ENV=='test')
+{
+    server.close();
+}
+
+module.exports = server;

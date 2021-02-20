@@ -147,7 +147,7 @@ DELIMITER
 $$
  CREATE OR REPLACE  PROCEDURE getMenu()
    BEGIN 
-   SELECT  * FROM  food_item;END
+   SELECT `food_item_id`,`food_item_name`,`price`,`description`,`calorie_amount` FROM `food_item` ;END
 $$
 
 

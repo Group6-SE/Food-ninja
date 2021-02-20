@@ -76,7 +76,7 @@ const login = async (request, response) => {
         };
 
         const token = generateAuthToken(payload);
-        console.log(token);
+        // console.log(token);
         request.session.token = token;
 
         return response.status(200).sendFile(path.join(__dirname, redirect));

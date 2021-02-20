@@ -4,10 +4,21 @@ async function getMenu(request,response){
     try {
         const res = await Customer.getmenu();
         const result = JSON.parse(JSON.stringify(res[0]))
-        response.render('customer/menu.html',{result: result , req: request});
+        if(!request.userEmail){
+            response.render('400.html',{mssg: "user not found"});
+        }else{
+
+            return response.render('customer/menu.html',{result: result , mail: request.userEmail});
+
+        }
+
+       
         
-    } catch (error) {
-        response.send(error.message);
+    } catch (err) {
+        response.render('500.html',{mssg: "menu error"});
+        // throw new Error("internel error");
+        
+        
         
     }
     
@@ -17,21 +28,25 @@ async function getMenu(request,response){
 async function addToCart(request,response) {
     // 1 means cart
     // 2 means favourite
+    
+    request.body={
+        item: request.body.item,
+        method_type: request.body.method_type
+    }
+    let res;
     try {
         if(request.body.method_type ==1){
-            await Customer.add_to_cart(request);
+             res =await Customer.add_to_cart(request);
         }
 
         else if(request.body.method_type ==2){
-            await Customer.add_to_fav(request);
-
-
+            res =  await Customer.add_to_fav(request);
         }
         
     } catch (error) {
         console.log(error);
     }
-    response.redirect('back');
+    return response.redirect('back');
 }
 exports.getMenu = getMenu;
 
