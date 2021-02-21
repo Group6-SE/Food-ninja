@@ -45,7 +45,8 @@ async function createOrder(request,response){
         
         
     } catch (error) {
-        response.send(error.message);
+        console.log(error.message);
+        // response.send(error.message);
         
     }
     

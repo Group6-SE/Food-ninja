@@ -2,7 +2,7 @@ let server ;
 const {pool} = require('../../../startup/mysql_database');
 const {getMenu,addToCart}=require('../../../controller/customer/menu');
 
-describe('menu controller ',()=>{
+describe('menu controller' ,()=>{
 
     beforeEach( async ()=>{
         server =require('../../../index');
@@ -13,8 +13,8 @@ describe('menu controller ',()=>{
 
     afterEach(async ()=>{ 
        
-         await pool.query("truncate table `customer_cart`");
-         await pool.query("truncate table `customer_favourites`");
+         await pool.query("delete from  `customer_cart`");
+         await pool.query("delete from `customer_favourites`");
 
         await server.close();
         
@@ -127,6 +127,7 @@ describe('menu controller ',()=>{
     })
 
     
+
 
 
 

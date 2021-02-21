@@ -33,14 +33,13 @@ async function addToCart(request,response) {
         item: request.body.item,
         method_type: request.body.method_type
     }
-    let res;
     try {
         if(request.body.method_type ==1){
-             res =await Customer.add_to_cart(request);
+             await Customer.add_to_cart(request);
         }
 
         else if(request.body.method_type ==2){
-            res =  await Customer.add_to_fav(request);
+            await Customer.add_to_fav(request);
         }
         
     } catch (error) {

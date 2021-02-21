@@ -32,9 +32,9 @@ module.exports= class Customer {
                 ],
                 (error, results, fields) => {
                     if (error) {
-                        reject(error);
+                        reject(error.message);
                     };
-                    resolve(console.log("entered succesfully"));
+                    resolve("customer created");
                 }
             )
         })

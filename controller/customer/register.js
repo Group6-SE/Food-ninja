@@ -6,7 +6,7 @@ const {validateCustomer} = require('../../validation/customer_register');
 async function createCustomer(request,response) {
     const {error} = validateCustomer(request.body);
     if(error){
-        return response.status(400).send(error.message);
+        return response.render('400.html',{mssg:error.message});
     }
 
     const salt = await bcrypt.genSalt(5);
@@ -14,12 +14,14 @@ async function createCustomer(request,response) {
 
     try {
         await Customer.createCustomer(_.pick(request.body,["customer_name","address","contact_number","email","password"]));
+        return response.render('customer/home.html');
         
     } catch (error) {
-       return  response.status(400).send(error.message);
+        console.log(error);
+       return  response.render('400.html',{mssg:error.message});
     }
 
-    response.render('customer/home.html');
+    
     
 }
 exports.createCustomer = createCustomer;

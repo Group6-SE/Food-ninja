@@ -7,7 +7,6 @@ const {getCart,removeCartItem,createOrder,getOngoinOrder,loadOrderFinal,showDisc
 describe('GET/ cart ',()=>{
     beforeEach( async ()=>{
         server =require('../../../index');
-        await pool.query("SET autocommit = OFF");
         await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
 
     });
@@ -15,7 +14,7 @@ describe('GET/ cart ',()=>{
     afterEach(async ()=>{ 
         // await pool.query("ROLLBACK");
         // await pool.end();
-        await pool.query("truncate table `customer_cart`" );
+        // await pool.query("DELETE FROM `customer_cart` WHERE `customer_email`=`k@gmail.com` AND `food_item_id`=`fa1;" );
         await server.close();
         
 
@@ -56,9 +55,8 @@ describe('GET/ cart ',()=>{
 
 describe('cart removal ',()=>{
     beforeEach( async ()=>{
-        await pool.query("SET autocommit = OFF");
         server =require('../../../index');
-        await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
+        // await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
 
     });
 
@@ -96,15 +94,14 @@ describe('cart removal ',()=>{
 
 describe('convert the cart to order ',()=>{
     beforeEach( async ()=>{
-        await pool.query("SET autocommit = OFF");
         server =require('../../../index');
         await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
 
     });
 
     afterEach(async ()=>{ 
-        await pool.query("truncate table `customer_cart`" );
-        await pool.query("truncate table `order_cart`" );
+        // await pool.query("DELETE FROM `customer_cart` WHERE `customer_email`=`k@gmail.com` AND `food_item_id`=`fa1;");
+        // await pool.query("DELETE FROM `order_cart` WHERE `order_id` = `1` ");
         await server.close();
         
 
@@ -147,16 +144,14 @@ describe('convert the cart to order ',()=>{
 });
 describe('get ongoing order' ,()=>{
         beforeEach( async ()=>{
-            await pool.query("SET autocommit = OFF");
             server =require('../../../index');
-            await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
-            await pool.query("INSERT INTO `order_cart`(`order_id`, `customer_email`, `food_item_id`, `completed`) VALUES (1,'k@gmail.com','fa1','no')")
+            // await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
+            // await pool.query("INSERT INTO `order_cart`(`order_id`, `customer_email`, `food_item_id`, `completed`) VALUES (1,'k@gmail.com','fa1','no')")
     
         });
     
         afterEach(async ()=>{ 
-            await pool.query("truncate table `customer_cart`" );
-            await pool.query("truncate table `order_cart`" );
+            await pool.query("DELETE FROM `order_cart` WHERE `order_id`=1");
             await server.close();
             
     
@@ -222,11 +217,11 @@ describe('get discounts' ,()=>{
         }
         //awul
         const discount=[
-            // {
-            //     discount_id: 1,
-            //     discount_description: 'dis',
-            //     discount_percentage: 10
-            //   }
+            {
+                discount_id: 1,
+                discount_description: 'dis',
+                discount_percentage: 10
+              }
         ]
 
 
