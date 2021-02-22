@@ -5,7 +5,7 @@ module.exports= class Manager {
     //create employee
     static insertEmployee(body) {
         return new Promise((resolve, reject) => {
-            pool.query("CALL create_employee (?,?,?,?,?)",
+            pool.query("INSERT INTO `employee`(`employee_name`, `job_post`, `email`, `password`, `contact_number`) VALUES  (?,?,?,?,?)",
                 [
                     body.employee_name,
                     body.job_post,
@@ -27,7 +27,7 @@ module.exports= class Manager {
 
     static  addFoodItem(body) {
         return new Promise((resolve, reject) => {
-            pool.query("CALL create_food_item (?,?,?,?,?,?)",
+            pool.query("INSERT INTO `food_item`(`food_item_id`, `food_item_name`, `price`, `description`, `calorie_amount`, `image`) VALUES  (?,?,?,?,?,?)",
                 [
                     body.food_item_id,
                     body.food_item_name,
@@ -52,7 +52,7 @@ module.exports= class Manager {
 
     static insertDriver(body) {
         return new Promise((resolve, reject) => {
-            pool.query("CALL create_driver (?,?,?,?,?,?)",
+            pool.query("INSERT INTO `delivery_person`( `name`, `contact_number`, `vehicle_type`, `vehicle_number`, `email`, `password`) VALUES (?,?,?,?,?,?)",
                 [
                     body.name,
                     body.contact_number,
@@ -76,7 +76,7 @@ module.exports= class Manager {
 
     static addDiscount(body) {
         return new Promise((resolve, reject) => {
-            pool.query("CALL create_discount (?,?,?,?,?)",
+            pool.query("INSERT INTO `discount`( `discount_description`, `eligible_price`, `discount_percentage`, `start_date`, `end_date`) VALUES  (?,?,?,?,?)",
                 [
                     body.discount_description,
                     body.eligible_price,

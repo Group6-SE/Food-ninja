@@ -44,8 +44,10 @@ describe('Manager/ add food item validation',()=>{
 
 describe('Manager/ add food item ',()=>{
 
-    beforeEach(()=>{
+    beforeEach(async ()=>{
         server = require('../../../index');
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
         req ={
             body:{
 
@@ -60,7 +62,7 @@ describe('Manager/ add food item ',()=>{
        }
     });
     afterEach( async ()=>{
-        await pool.query("DELETE FROM `food_item` WHERE `food_item_id`='testID';");
+        await pool.query("ROLLBACK");
         await server.close();
     });
 

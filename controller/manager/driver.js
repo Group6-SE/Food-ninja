@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 async function createDriver(request,response) {
     const {error} = validateDriver(request.body);
     if(error){
-        return response.status(400).send(error.message);
+        return response.render('400.html',{mssg: error.message});  
     }
 
     const salt = await bcrypt.genSalt(5);
@@ -15,12 +15,13 @@ async function createDriver(request,response) {
 
     try {
         await Manager.insertDriver(_.pick(request.body,["name","contact_number","vehicle_type","vehicle_number","email","password"]));
+        response.render('manager/home.html');
         
     } catch (error) {
-       return  response.status(400).send(error.message);
+        return  response.render('500.html',{mssg: error.message}); 
     }
 
-    response.render('manager/home.html');
+   
     
 }
 

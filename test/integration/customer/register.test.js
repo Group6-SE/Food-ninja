@@ -26,7 +26,6 @@ describe('Customer validation',()=>{
     });
     
     afterEach(async ()=>{
-        await pool.query("DELETE FROM `customer` WHERE `customer_name`='saman';");
         await server.close();
 
     });
@@ -83,25 +82,32 @@ describe('Customer validation',()=>{
 // });
 
 describe('Customer creation', ()=>{
-    beforeEach(()=>{
+    beforeEach(async ()=>{
+
         server =require('../../../index');
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
+
+        req ={
+            body:{
+    
+               customer_name:"saman",
+               address:"address",
+               contact_number:"1234569870",
+               email:"s@gmail.com",
+               password:"test123"
+    
+            }
+       }
     })
 
     afterEach(async ()=>{
-        await pool.query("DELETE FROM `customer` WHERE `customer_name`='saman';");
+        await pool.query("ROLLBACK");
+        await server.close();
+
 
     });
-    req ={
-        body:{
-
-           customer_name:"saman",
-           address:"address",
-           contact_number:"1234569870",
-           email:"s@gmail.com",
-           password:"test123"
-
-        }
-   }
+    
 
 
     const res={

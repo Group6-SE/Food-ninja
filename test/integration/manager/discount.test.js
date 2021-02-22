@@ -7,7 +7,7 @@ let server ;
 describe('Manager/ Create Discount validation',()=>{
 
 
-    beforeEach(()=>{
+    beforeEach( ()=>{
 
         req ={
             body:{
@@ -47,8 +47,10 @@ describe('Manager/ Create Discount validation',()=>{
 describe('Manager/ Create Discount ',()=>{
 
 
-    beforeEach(()=>{
+    beforeEach( async ()=>{
          server =require('../../../index');
+         await pool.query("SET autocommit = OFF");
+         await pool.query("BEGIN");
 
          req ={
             body:{
@@ -66,7 +68,7 @@ describe('Manager/ Create Discount ',()=>{
 
     afterEach( async ()=>{
 
-        await pool.query("DELETE FROM `discount` WHERE `discount_description`='test';");
+        await pool.query("ROLLBACK");
         await server.close();
         
     });

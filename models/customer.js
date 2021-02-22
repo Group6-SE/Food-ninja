@@ -22,7 +22,7 @@ module.exports= class Customer {
 
     static createCustomer(body) {
         return new Promise((resolve, reject) => {
-            pool.query("CALL create_customer(?,?,?,?,?)",
+            pool.query("INSERT INTO `customer`( `customer_name`, `address`, `contact_number`, `email`, `password`) VALUES (?,?,?,?,?)",
                 [
                     body.customer_name,
                     body.address,

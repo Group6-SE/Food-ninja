@@ -18,7 +18,7 @@ async function createCustomer(request,response) {
         
     } catch (error) {
         console.log(error);
-       return  response.render('400.html',{mssg:error.message});
+       return  response.render('500.html',{mssg:error.message});
     }
 
     
