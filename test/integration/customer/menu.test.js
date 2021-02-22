@@ -2,8 +2,13 @@ let server ;
 const {pool} = require('../../../startup/mysql_database');
 const {getMenu,addToCart}=require('../../../controller/customer/menu');
 
-describe('menu controller' ,()=>{
 
+
+    
+
+describe('get menu item', ()=>{
+
+        
     beforeEach( async ()=>{
         server =require('../../../index');
         // await pool.query("INSERT INTO `customer`(`customer_name`, `address`, `loyalty_points`, `contact_number`, `email`, `password`) VALUES ('kamal','ddd','250','7896541230','k@gmail.com','p/w');")
@@ -12,18 +17,11 @@ describe('menu controller' ,()=>{
     });
 
     afterEach(async ()=>{ 
-       
-         await pool.query("delete from  `customer_cart`");
-         await pool.query("delete from `customer_favourites`");
-
-        await server.close();
+            
+     await server.close();
         
 
     });
-
-    
-
-    describe('get menu item', ()=>{
 
         let req ={
             userEmail: 'k@gmail.com'
@@ -85,7 +83,21 @@ describe('menu controller' ,()=>{
 
     });
 
-    describe(' adding a food item to the cart or fav',()=>{
+describe(' adding a food item to the cart or fav',()=>{
+
+        beforeEach( async ()=>{
+            server =require('../../../index');  
+        });
+    
+        afterEach(async ()=>{    
+             await pool.query("truncate table `customer_favourites`;");          
+             await pool.query("delete from  `customer_cart`;");
+             await server.close();
+            
+    
+        });
+
+        
         it('added the item to cart', async()=>{
 
             let req={
@@ -124,13 +136,9 @@ describe('menu controller' ,()=>{
     
         });
 
-    })
+    });
 
     
 
-
-
-
-});
 
 

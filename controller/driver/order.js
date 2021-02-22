@@ -6,11 +6,11 @@ async function tobeDelivered(request,response){
     try {
          const result =  await Driver.notDelivered();
          const order = JSON.parse(JSON.stringify(result[0]));
-         response.render('driver/orders.html',{penidng: order, req:request});
+         response.render('driver/orders.html',{penidng: order, email:request.userEmail});
         
         
     } catch (error) {
-        response.send(error.message);
+        response.render('500.html',{mssg:"ERROR "});
         
     }
     
@@ -37,7 +37,7 @@ async function getOrderByDriver(request,response){
     try {
          const result =  await Driver.getOrderByDriver(request);
          const order = JSON.parse(JSON.stringify(result[0]));
-         response.render('driver/my_orders.html',{order: order, req:request});
+         response.render('driver/my_orders.html',{order: order, email:request.userEmail});
         
         
     } catch (error) {

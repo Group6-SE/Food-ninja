@@ -49,13 +49,13 @@ describe('GET/ favourite Items ',()=>{
 
 describe('remove from favs',()=>{
     beforeEach( async ()=>{
-        await pool.query("SET autocommit = OFF");
         server =require('../../../index');
         // await pool.query("INSERT INTO `customer_favourites`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
  
     });
 
     afterEach(async ()=>{ 
+        await pool.query("delete from `customer_favourites`");
         await server.close();
         
 
@@ -73,10 +73,6 @@ describe('remove from favs',()=>{
         let res ={
             redirect: jest.fn()
         }
-
-
-
-    
 
         await removeFavItem(req,res);
 

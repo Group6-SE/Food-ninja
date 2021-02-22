@@ -4,7 +4,7 @@ async function getAllOrder(request,response){
     try {
          const result =  await Employee.getAllOrder();
          const order = JSON.parse(JSON.stringify(result[0]));
-         response.render('employee/orderlist.html',{order: order, req:request});
+         response.render('employee/orderlist.html',{order: order, email:request.userEmail});
         
         
     } catch (error) {
@@ -33,7 +33,7 @@ async function getAcceptedOrders(request,response){
     try {
          const result =  await Employee.getAcceptedOrders();
          const order = JSON.parse(JSON.stringify(result[0]));
-         response.render('employee/accepted_order.html',{accepted: order, req:request});
+         response.render('employee/accepted_order.html',{accepted: order, email:request.userEmail});
         
         
     } catch (error) {
