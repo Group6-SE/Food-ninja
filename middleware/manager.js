@@ -1,6 +1,6 @@
 module.exports = function (request, response, next) {
     
-    if (request.privilege_level != 1) return response.status(401).send(`Access denied ${request.privilege_level} `);
+    if (request.privilege_level != 1) return response.render('401.html');
 
     next();
 }
