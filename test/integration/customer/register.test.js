@@ -1,6 +1,6 @@
 const {createCustomer} =require('../../../controller/customer/register');
 const {pool}= require('../../../startup/mysql_database');
-
+let server;
 let req;
 
 describe('Customer validation',()=>{
@@ -10,6 +10,7 @@ describe('Customer validation',()=>{
     }
     
     beforeEach(()=>{
+        server =require('../../../index');
          req ={
              body:{
 
@@ -19,16 +20,14 @@ describe('Customer validation',()=>{
                 email:"s@gmail.com",
                 password:"test123"
 
-             }
-                
-            
-    
+             }    
         }
 
     });
     
     afterEach(async ()=>{
         await pool.query("DELETE FROM `customer` WHERE `customer_name`='saman';");
+        await server.close();
 
     });
 
@@ -84,6 +83,9 @@ describe('Customer validation',()=>{
 // });
 
 describe('Customer creation', ()=>{
+    beforeEach(()=>{
+        server =require('../../../index');
+    })
 
     afterEach(async ()=>{
         await pool.query("DELETE FROM `customer` WHERE `customer_name`='saman';");
