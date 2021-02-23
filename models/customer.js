@@ -151,7 +151,7 @@ module.exports= class Customer {
 
     static removeFavItem(request) {
         return new Promise((resolve, reject) => {
-            pool.query("CALL removeFavItem(?,?)",
+            pool.query("DELETE FROM customer_favourites where customer_favourites.customer_email= ? AND customer_favourites.food_item_id= ? ;",
                 [
                     request.userEmail,
                     request.body.item

@@ -18,13 +18,14 @@ async function getAllOrder(request,response){
 
 async function completeOrder(request,response){
     try {
-         await Employee.completeOrder(request);        
+         await Employee.completeOrder(request); 
+         response.redirect('back');       
         
     } catch (error) {
-        response.send(error.message);
+        response.render('500.html',{mssg:error.message});
         
     }
-    response.redirect('back');
+    
     
     
 }

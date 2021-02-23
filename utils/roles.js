@@ -3,7 +3,6 @@ const ROLES = {
     Employee: 2,
     Customer:3,
     Driver: 4,
-    Guest: 5
 }
 
 exports.ROLES = ROLES;
