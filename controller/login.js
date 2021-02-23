@@ -9,7 +9,7 @@ const path = require('path');
 function validateLogIn(login) {
     const schema = Joi.object({
         "email": Joi.string().required().email(),
-        "password": Joi.string().min(5).max(1024).required(),
+        "password": Joi.string().min(6).max(1024).required(),
         "privilege_level":Joi.string().required()
     });
     return schema.validate(login);
@@ -26,7 +26,8 @@ function generateAuthToken(payload) {
 const login = async (request, response) => {
     const {error} = validateLogIn(request.body);
     if (error) {
-        return response.status(400).send(error.message);
+        console.log(error.message);
+        return response.render('400.html',{mssg:error.message});
     }
     const email = request.body.email;
     var password;
@@ -35,31 +36,31 @@ const login = async (request, response) => {
     if (request.body.privilege_level == 1)
     {
         procedure = "manager";
-        redirect = '../views/manager/home.html';
+        redirect = 'manager/home.html';
     }
-    if (request.body.privilege_level == 2)
+    else if (request.body.privilege_level == 2)
     {
         procedure = "employee";
-        redirect = '../views/employee/home.html';
+        redirect = 'employee/home.html';
 
     }
-    if (request.body.privilege_level == 3)
+    else if (request.body.privilege_level == 3)
     {
         procedure = "customer";
-        redirect = '../views/customer/home.html';
+        redirect = 'customer/home.html';
 
     }
-    if (request.body.privilege_level == 4)
+    else if (request.body.privilege_level == 4)
     {
         procedure = "delivery_person";
-        redirect = '../views/driver/home.html';
+        redirect = 'driver/home.html';
     }
 
     try {
         password = await getPassword(email, procedure);
-        // console.log(password);
+        console.log(password);
          if (!password) {
-             return response.status(400).send("User not registered");
+             return response.render('400.html',{mssg:"User not registered"});
         }
         // console.log(`request.body.password, ${request.body.password}`);
         // console.log(`true pass ${password}`);
@@ -67,7 +68,8 @@ const login = async (request, response) => {
 
         // console.log(validPassword);
         if (!validPassword) {
-            return response.status(400).send("Invalid e-mail or password"); //Not 404 because you dont want to give that much info to the client
+            return response.render('400.html',{mssg:"Invalid e-mail or password"});
+         //Not 404 because you dont want to give that much info to the client
         }
         
         const payload = {
@@ -79,11 +81,11 @@ const login = async (request, response) => {
         // console.log(token);
         request.session.token = token;
 
-        return response.status(200).sendFile(path.join(__dirname, redirect));
+        return response.render(redirect);
         
     } catch (error) {
         console.log(error.message);
-        return response.status(500).send(error.message);
+        return response.render('500.html',{mssg:error.message});
     }
 }
 exports.validateLogIn = validateLogIn;
