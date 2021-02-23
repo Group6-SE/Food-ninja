@@ -5,12 +5,14 @@ describe('pending orders without driver assigned',()=>{
 
     beforeEach( async ()=>{
         server =require('../../../index');
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
         await pool.query("INSERT INTO `processed_order`(`order_id`, `customer`, `price`, `order_date`, `delivered`, `delivery_person`) VALUES  ('1','k@gmail.com',250,'2020-02-22','no',null)");
 
     });
 
     afterEach(async ()=>{ 
-        await pool.query("DELETE FROM `processed_order` ");
+        await pool.query("ROLLBACK");
         await server.close();
         
 
@@ -29,15 +31,13 @@ describe('pending orders without driver assigned',()=>{
             render: jest.fn()
         }
 
-        const order =[
+        const order =
             {
             Address: "ddd",
             customer: "k@gmail.com",
             order_id: 1,
             price: 250,
-            }
-        
-        ];
+            };
 
         await tobeDelivered(req,res);
         expect(res.render).toHaveBeenCalledWith('driver/orders.html',{penidng: order,email:req.userEmail});
@@ -80,12 +80,14 @@ describe('driver views his orders',()=>{
 
     beforeEach( async ()=>{
         server =require('../../../index');
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
         await pool.query("INSERT INTO `processed_order`(`order_id`, `customer`, `price`, `order_date`, `delivered`, `delivery_person`) VALUES  ('1','k@gmail.com',250,'2020-02-22','yes','d@gmail.com')");
 
     });
 
     afterEach(async ()=>{ 
-        await pool.query("DELETE FROM `processed_order` ");
+        await pool.query("ROLLBACK");
         await server.close();
         
 
@@ -104,8 +106,7 @@ describe('driver views his orders',()=>{
         }
     
         
-        const order =[
-
+        const order =
             {
             customer: "k@gmail.com",
             delivered: "yes",
@@ -115,7 +116,6 @@ describe('driver views his orders',()=>{
             price: 250,
             }
         
-        ];
     
         await getOrderByDriver(req,res);
         expect(res.render).toHaveBeenLastCalledWith('driver/my_orders.html',

@@ -57,7 +57,7 @@ describe('remove from favs',()=>{
     });
 
     afterEach(async ()=>{ 
-        
+        await pool.query("ROLLBACK");
         await server.close();
         
 

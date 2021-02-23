@@ -5,12 +5,14 @@ describe('pending orders not accepted',()=>{
 
     beforeEach( async ()=>{
         server =require('../../../index');
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
         await pool.query("INSERT INTO `order_cart`(`order_id`, `customer_email`, `food_item_id`, `completed`) VALUES ('1','k@gmail.com','fa1','no');");
 
     });
 
     afterEach(async ()=>{ 
-        await pool.query("DELETE FROM `order_cart`");
+        await pool.query("ROLLBACK");
         await server.close();
         
 
@@ -29,7 +31,7 @@ describe('pending orders not accepted',()=>{
             render: jest.fn()
         }
 
-        const order =[
+        const order =
             {
                 food_item_id: "fa1",
                 food_item_name: "burger",
@@ -38,7 +40,7 @@ describe('pending orders not accepted',()=>{
             }
             
         
-        ];
+        
 
         await getAllOrder(req,res);
         
@@ -53,7 +55,7 @@ describe('pending orders not accepted',()=>{
 
         
         let req ={
-            userEmail: 'e@gmail.com',
+            userEmail: 'k@gmail.com',
             body:{
                 order_id:1
             }
@@ -61,6 +63,7 @@ describe('pending orders not accepted',()=>{
         }
 
         let res ={
+            render: jest.fn(),
             redirect: jest.fn()
         }
 
@@ -74,9 +77,6 @@ describe('pending orders not accepted',()=>{
 
     });
 
-    
-
-
 
 });
 
@@ -84,11 +84,14 @@ describe('employee view for accepted orders',()=>{
 
     beforeEach( async ()=>{
         server =require('../../../index');
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
+        await pool.query("INSERT INTO `processed_order`(`order_id`, `customer`, `price`, `order_date`, `delivered`, `delivery_person`) VALUES (1,'k@gmail.com',250,now(),'no',null);")
 
     });
 
     afterEach(async ()=>{ 
-        await pool.query("DELETE FROM `processed_order` ");
+        await pool.query("ROLLBACK");
         await server.close();
         
 
@@ -107,7 +110,7 @@ describe('employee view for accepted orders',()=>{
         }
     
         
-        const order =[
+        const order =
             {
 
             customer: "k@gmail.com",
@@ -120,7 +123,7 @@ describe('employee view for accepted orders',()=>{
 
          
         
-        ];
+        
     
         await getAcceptedOrders(req,res);
         expect(res.render).toHaveBeenLastCalledWith('employee/accepted_order.html',
