@@ -3,7 +3,7 @@
     "user":"root",
     "password":"",
     "port":3306,
-    "database":"ninja",
+    "database":"ninja2",
     "jwtPrivateKey":"unsecureKey"
 
 }

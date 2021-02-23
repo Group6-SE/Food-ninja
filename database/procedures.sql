@@ -205,6 +205,8 @@ $$
  CREATE OR REPLACE  PROCEDURE tranfertoOrder(useremail VARCHAR (50) )
 BEGIN 
    DECLARE id Int ;
+   DECLARE `_rollback` BOOL DEFAULT 0;
+   DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
    START TRANSACTION;
    SELECT max(order_cart.order_id) INTO id from order_cart;
    IF id is NULL THEN
@@ -212,8 +214,14 @@ BEGIN
    end IF;
    INSERT INTO `order_cart` (order_cart.customer_email, order_cart.food_item_id, order_cart.order_id) SELECT *,(id+1)  from `customer_cart` where customer_cart.customer_email = useremail; 
    DELETE  from `customer_cart` WHERE customer_cart.customer_email = useremail;
-    COMMIT; END
+   IF `_rollback` THEN
+        	ROLLBACK;
+  	 ELSE
+        	COMMIT;
+   	 END IF;
+END
 
+$$
 $$
 DELIMITER $$
  CREATE OR REPLACE  PROCEDURE updateDelivery(orderID INT,driverEmail VARCHAR(50) )

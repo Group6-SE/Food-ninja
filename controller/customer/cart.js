@@ -33,8 +33,9 @@ async function removeCartItem(request,response){
 
 
 async function createOrder(request,response){
+    let rezz
     try {
-         await Customer.createOrder(request);
+         rezz=await Customer.createOrder(request);
          const result =  await Customer.getCurrentOrder(request);
          const order = JSON.parse(JSON.stringify(result[0]));
         let total =0;
@@ -45,8 +46,8 @@ async function createOrder(request,response){
         
         
     } catch (error) {
-        console.log(error.message);
-        // response.send(error.message);
+        console.log(error);
+        response.render('500.html',{msssg:error.message});
         
     }
     
@@ -75,14 +76,24 @@ async function getOngoinOrder(request,response){
 
 
 async function showDiscount(request,response){
+    
     try {
+            let discount;
          const result = await Customer.getDiscount(request);
-         const discount = JSON.parse(JSON.stringify(result[0]));
+         if(result[0]){
+            discount = JSON.parse(JSON.stringify(result[0]));
+
+         }
+         else{
+             discount=[{}]
+
+         }
+         
          response.render('customer/discounts.html',{discount: discount, req:request});
         
         
     } catch (error) {
-        response.send(error.message);
+        response.render('500.html',{err: error.message});
         
     }
     

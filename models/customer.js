@@ -62,7 +62,7 @@ module.exports= class Customer {
 
     static getCart(request) {
         return new Promise((resolve, reject) => {
-            pool.query("CALL getcart(?)",
+            pool.query("SELECT customer_cart.food_item_id, food_item.food_item_name, food_item.price FROM customer_cart LEFT  JOIN food_item on food_item.food_item_id= customer_cart.food_item_id WHERE customer_cart.customer_email = ?; ",
                 [
                     request.userEmail
                 ],
@@ -169,12 +169,13 @@ module.exports= class Customer {
 
     static createOrder(request) {
         return new Promise((resolve, reject) => {
-            pool.query("CALL tranfertoOrder(?)",
+            const res =pool.query("INSERT INTO `order_cart` (order_cart.customer_email, order_cart.food_item_id, order_cart.order_id) SELECT *, (select max(order_cart.order_id) || 1 from order_cart)  from `customer_cart` where customer_cart.customer_email = ?;",
                 [
                     request.userEmail,
                 ],
                 (error, results, fields) => {
                     if (error) {
+                        console.log(res.query);
                         reject(error);
                     };
                     resolve("order created noiceee");
@@ -203,7 +204,7 @@ module.exports= class Customer {
     }
     static getDiscount(request) {
         return new Promise((resolve, reject) => {
-            pool.query("CALL getdiscounts(?)",
+            pool.query("SELECT discount.discount_id,discount.discount_description, discount.discount_percentage FROM discount where  discount.eligible_price > (?) AND discount.end_date > now() AND discount.start_date < now();",
                 [
                     request.body.total,
                 ],

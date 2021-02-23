@@ -7,12 +7,14 @@ const {getCart,removeCartItem,createOrder,getOngoinOrder,loadOrderFinal,showDisc
 describe('GET/ cart ',()=>{
     beforeEach( async ()=>{
         server =require('../../../index');
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
         await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
 
     });
 
     afterEach(async ()=>{ 
-        // await pool.query("ROLLBACK");
+        await pool.query("ROLLBACK");
         // await pool.end();
         // await pool.query("DELETE FROM `customer_cart` WHERE `customer_email`=`k@gmail.com` AND `food_item_id`=`fa1;" );
         await server.close();
@@ -30,10 +32,9 @@ describe('GET/ cart ',()=>{
             render: jest.fn()
         }
 
-        const result =[
-            { food_item_id: 'fa1', food_item_name: 'burger', price: 250 }
+        const result ={ food_item_id: 'fa1', food_item_name: 'burger', price: 250 }
 
-        ]
+        
         const total =[
             {total_price: 250}
         ]
@@ -56,7 +57,7 @@ describe('GET/ cart ',()=>{
 describe('cart removal ',()=>{
     beforeEach( async ()=>{
         server =require('../../../index');
-        // await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
+        await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
 
     });
 
@@ -95,13 +96,16 @@ describe('cart removal ',()=>{
 describe('convert the cart to order ',()=>{
     beforeEach( async ()=>{
         server =require('../../../index');
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
         await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
 
     });
 
-    afterEach(async ()=>{ 
+    afterEach(async  ()=>{ 
         // await pool.query("DELETE FROM `customer_cart` WHERE `customer_email`=`k@gmail.com` AND `food_item_id`=`fa1;");
-        // await pool.query("DELETE FROM `order_cart` WHERE `order_id` = `1` ");
+        
+        await pool.query("ROLLBACK");
         await server.close();
         
 
@@ -142,16 +146,21 @@ describe('convert the cart to order ',()=>{
     });
 
 });
+
 describe('get ongoing order' ,()=>{
         beforeEach( async ()=>{
             server =require('../../../index');
-            // await pool.query("INSERT INTO `customer_cart`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
-            // await pool.query("INSERT INTO `order_cart`(`order_id`, `customer_email`, `food_item_id`, `completed`) VALUES (1,'k@gmail.com','fa1','no')")
+            await pool.query("SET autocommit = OFF");
+            await pool.query("BEGIN");
+            await pool.query("INSERT INTO `order_cart`(`order_id`, `customer_email`, `food_item_id`) VALUES (1,'k@gmail.com','fa1');")
+
+            
+      
     
         });
     
         afterEach(async ()=>{ 
-            await pool.query("DELETE FROM `order_cart` WHERE `order_id`=1");
+            await pool.query("ROLLBACK");
             await server.close();
             
     
@@ -195,13 +204,15 @@ describe('get ongoing order' ,()=>{
 
 describe('get discounts' ,()=>{
     beforeEach( async ()=>{
-        await pool.query("SET autocommit = OFF");
         server =require('../../../index');
-        // await pool.query("INSERT INTO `discount`( `discount_id`,`discount_description`, `eligible_price`, `discount_percentage`, `start_date`, `end_date`) VALUES (1,'dis','1000','10','2021-02-21 12:07:00','2020-02-23');");       
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
+        await pool.query("INSERT INTO `discount`( `discount_id`,`discount_description`, `eligible_price`, `discount_percentage`, `start_date`, `end_date`) VALUES (1,'dis','1000','10','2021-02-21 12:07:00','2021-02-27');");       
 
     });
 
     afterEach(async ()=>{ 
+        await pool.query("ROLLBACK");
         await server.close();
         
 
@@ -216,13 +227,13 @@ describe('get discounts' ,()=>{
           
         }
         //awul
-        const discount=[
-            {
+        const discount=
+                {
                 discount_id: 1,
                 discount_description: 'dis',
                 discount_percentage: 10
               }
-        ]
+            
 
 
         let res ={
@@ -245,7 +256,6 @@ describe('get discounts' ,()=>{
 
 describe('get final order' ,()=>{
     beforeEach( async ()=>{
-        await pool.query("SET autocommit = OFF");
         server =require('../../../index');
 
     });
