@@ -15,7 +15,7 @@ describe('Manager/ Create Discount validation',()=>{
                 discount_description:"test",
                 eligible_price:"1000",
                 discount_percentage:"10",
-                start_date:"2021-02-23 22:27:08",
+                start_date:"2021-02-27 22:27:08",
                 end_date:"2021-03-03 10:27:08"
 
             }    
@@ -26,6 +26,12 @@ describe('Manager/ Create Discount validation',()=>{
         render: jest.fn()
     }
 
+    it('end date validation check',async ()=>{
+        req.body.end_date = "2021-02-20 22:27:08"
+        await createDiscount(req,res);
+        expect(res.render).toHaveBeenCalledWith('400.html',{"mssg": "\"end_date\" must be greater than or equal to \"now\""});
+
+    });
 
     it('start date validation check',async ()=>{
         req.body.start_date = "2021-02-20 22:27:08"
@@ -34,12 +40,7 @@ describe('Manager/ Create Discount validation',()=>{
 
     });
 
-    it('end date validation check',async ()=>{
-        req.body.end_date = "2021-02-20 22:27:08"
-        await createDiscount(req,res);
-        expect(res.render).toHaveBeenCalledWith('400.html',{"mssg": "\"end_date\" must be greater than or equal to \"now\""});
-
-    });
+    
 
 });
 
@@ -58,7 +59,7 @@ describe('Manager/ Create Discount ',()=>{
                 discount_description:"test",
                 eligible_price:"1000",
                 discount_percentage:"10",
-                start_date:"2021-02-23 22:27:08",
+                start_date:"2021-02-27 22:27:08",
                 end_date:"2021-03-03 10:27:08"
     
             }    
