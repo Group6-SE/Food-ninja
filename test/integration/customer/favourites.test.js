@@ -10,9 +10,6 @@ describe('GET/ favourite Items ',()=>{
     });
 
     afterEach(async ()=>{ 
-        // await pool.query("ROLLBACK");
-        // await pool.end();
-        // await pool.query("truncate table `customer_favourites`" );
         await server.close();
         
 
