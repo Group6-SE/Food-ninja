@@ -5,11 +5,14 @@ const {getFav,removeFavItem}=require('../../../controller/customer/favourites');
 describe('GET/ favourite Items ',()=>{
     beforeEach( async ()=>{
         server =require('../../../index');
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
         await pool.query("INSERT INTO `customer_favourites`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
 
     });
 
     afterEach(async ()=>{ 
+        await pool.query("ROLLBACK");
         await server.close();
         
 
@@ -47,12 +50,14 @@ describe('GET/ favourite Items ',()=>{
 describe('remove from favs',()=>{
     beforeEach( async ()=>{
         server =require('../../../index');
-        // await pool.query("INSERT INTO `customer_favourites`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
+        await pool.query("SET autocommit = OFF");
+        await pool.query("BEGIN");
+        await pool.query("INSERT INTO `customer_favourites`(`customer_email`, `food_item_id`) VALUES ('k@gmail.com','fa1')");
  
     });
 
     afterEach(async ()=>{ 
-        await pool.query("delete from `customer_favourites`");
+        
         await server.close();
         
 

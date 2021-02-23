@@ -11,8 +11,7 @@ describe('get menu item', ()=>{
         
     beforeEach( async ()=>{
         server =require('../../../index');
-        // await pool.query("INSERT INTO `customer`(`customer_name`, `address`, `loyalty_points`, `contact_number`, `email`, `password`) VALUES ('kamal','ddd','250','7896541230','k@gmail.com','p/w');")
-        // await pool.query("INSERT INTO `food_item`(`food_item_id`, `food_item_name`, `price`, `description`, `calorie_amount`, `image`) VALUES ('fa1','burger',250,'yummy',100,'img.png');");
+        
         
     });
 
@@ -87,11 +86,12 @@ describe(' adding a food item to the cart or fav',()=>{
 
         beforeEach( async ()=>{
             server =require('../../../index');  
+            await pool.query("SET autocommit = OFF");
+            await pool.query("BEGIN");
         });
     
         afterEach(async ()=>{    
-             await pool.query("truncate table `customer_favourites`;");          
-             await pool.query("delete from  `customer_cart`;");
+             await pool.query("ROLLBACK");
              await server.close();
             
     

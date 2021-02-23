@@ -43,7 +43,7 @@ module.exports= class Customer {
 
     static add_to_cart(request){
         return new Promise((resolve,reject) =>{
-            pool.query("CALL add_to_cart(?,?)",
+            pool.query("INSERT INTO `customer_cart` (`customer_email`,`food_item_id`) VALUES (?,?);",
             [
                 request.userEmail,
                 request.body.item
@@ -98,7 +98,7 @@ module.exports= class Customer {
     
     static add_to_fav(request){
         return new Promise((resolve,reject) =>{
-            pool.query("CALL add_to_fav(?,?)",
+            pool.query("INSERT INTO `customer_favourites` (`customer_email`,`food_item_id`) VALUES (?,?)",
             [
                 request.userEmail,
                 request.body.item
