@@ -17,7 +17,7 @@ function validateLogIn(login) {
 
 function generateAuthToken(payload) {
     const token = jwt.sign(payload, config.get('jwtPrivateKey'), {
-        expiresIn: process.env.ONE_HOUR
+        expiresIn: 3600
     });
     // console.log(token);
     return token;
