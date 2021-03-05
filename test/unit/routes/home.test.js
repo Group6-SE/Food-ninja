@@ -1,8 +1,6 @@
 
-const {generateAuthToken} = require('../../../controller/login');
 let server;
 const supertest =require('supertest');
-const { func } = require('joi');
 
 let request ={
     userEmail:'k@gmail.com',
