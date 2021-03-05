@@ -1,21 +1,22 @@
 const express = require('express');
 const path = require('path');
+const { logout } = require('../controller/logout');
 const router = express.Router();
 const isLoggedIn = require('../middleware/login');
 
 router.get('/', [isLoggedIn], (request, response) => {
     // this route will only execute if user is logged in
     if (request.privilege_level == 1) {
-        return response.sendFile(path.join(__dirname, '../views/manager/home.html'));
+        return response.render('manager/home.html');
     }
     if (request.privilege_level == 2) {
-        return response.sendFile(path.join(__dirname, '../views/employee/home.html'));
+        return response.render('employee/home.html');
     }
     if (request.privilege_level == 3) {
-        return response.sendFile(path.join(__dirname, '../views/customer/home.html'));
+        return response.render('customer/home.html');
     }
     if (request.privilege_level == 4) {
-        return response.sendFile(path.join(__dirname, '../views/driver/home.html'));
+        return response.render('driver/home.html');
     }
 })
 

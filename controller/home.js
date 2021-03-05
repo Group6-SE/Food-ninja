@@ -3,7 +3,7 @@ const path = require('path');
 const router = express.Router();
 const isLoggedIn = require('../middleware/login');
 
-router.get('/', [isLoggedIn], (request, response) => {
+router.get('/',(request, response) => {
     // this route will only execute if user is logged in
     if (request.privilege_level == 1) {
         return response.sendFile(path.join(__dirname, '../views/manager/home.html'));
@@ -17,6 +17,6 @@ router.get('/', [isLoggedIn], (request, response) => {
     if (request.privilege_level == 4) {
         return response.sendFile(path.join(__dirname, '../views/driver/home.html'));
     }
-})
+});
 
 module.exports = router;

@@ -8,7 +8,7 @@ async function getFav(request,response){
         response.render('customer/favourites.html',{result: result, req:request});
         
     } catch (error) {
-        response.send(error.message);
+        // response.send(error.message);
         
     }
     
@@ -22,7 +22,7 @@ async function removeFavItem(request,response){
        
         
     } catch (error) {
-        response.send(error.message);
+        // response.send(error.message);
         
     }
     response.redirect('back');

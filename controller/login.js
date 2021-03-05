@@ -84,7 +84,6 @@ const login = async (request, response) => {
         return response.render(redirect);
         
     } catch (error) {
-        console.log(error.message);
         return response.render('500.html',{mssg:error.message});
     }
 }

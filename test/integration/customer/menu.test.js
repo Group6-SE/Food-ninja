@@ -50,7 +50,7 @@ describe('get menu item', ()=>{
         });
     
         it('return 400 page due to user not logged', async()=>{
-            let req ={
+            req ={
                 userEmail: null
             };
     
@@ -65,21 +65,7 @@ describe('get menu item', ()=>{
     
         });
     
-        // it('return 500 oage due to internal server error', async()=>{
-        //     await server.close();
-    
-            
-        //     expect(async ()=>{await getMenu(req,res);}).toThrow();
-             
-        //     // expect(res.render).toHaveBeenCalledWith('500.html',
-        //     // {mssg: "menu error"});
-    
-            
-    
-    
-    
-        // });
-
+      
     });
 
 describe(' adding a food item to the cart or fav',()=>{

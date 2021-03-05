@@ -15,11 +15,7 @@ async function getMenu(request,response){
        
         
     } catch (err) {
-        response.render('500.html',{mssg: "menu error"});
-        // throw new Error("internel error");
-        
-        
-        
+        // response.render('500.html',{mssg: "menu error"});
     }
     
     
@@ -43,7 +39,7 @@ async function addToCart(request,response) {
         }
         
     } catch (error) {
-        console.log(error);
+        // response.render('500.html',{mssg: "menu error"});
     }
     return response.redirect('back');
 }

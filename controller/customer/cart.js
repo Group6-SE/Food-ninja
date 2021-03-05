@@ -46,7 +46,6 @@ async function createOrder(request,response){
         
         
     } catch (error) {
-        console.log(error);
         response.render('500.html',{msssg:error.message});
         
     }
@@ -66,7 +65,7 @@ async function getOngoinOrder(request,response){
         
         
     } catch (error) {
-        response.send(error.message);
+        // response.send(error.message);
         
     }
     
@@ -80,20 +79,12 @@ async function showDiscount(request,response){
     try {
             let discount;
          const result = await Customer.getDiscount(request);
-         if(result[0]){
-            discount = JSON.parse(JSON.stringify(result[0]));
-
-         }
-         else{
-             discount=[{}]
-
-         }
-         
+            discount = JSON.parse(JSON.stringify(result[0]));          
          response.render('customer/discounts.html',{discount: discount, req:request});
         
         
     } catch (error) {
-        response.render('500.html',{err: error.message});
+        // response.render('500.html',{err: error.message});
         
     }
     

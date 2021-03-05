@@ -10,7 +10,7 @@ async function tobeDelivered(request,response){
         
         
     } catch (error) {
-        response.render('500.html',{mssg:"ERROR "});
+        // response.render('500.html',{mssg:"ERROR "});
         
     }
     
