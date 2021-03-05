@@ -207,7 +207,7 @@ describe('get discounts' ,()=>{
         server =require('../../../index');
         await pool.query("SET autocommit = OFF");
         await pool.query("BEGIN");
-        await pool.query("INSERT INTO `discount`( `discount_id`,`discount_description`, `eligible_price`, `discount_percentage`, `start_date`, `end_date`) VALUES (1,'dis','1000','10','2021-02-21 12:07:00','2021-02-27');");       
+        await pool.query("INSERT INTO `discount`( `discount_id`,`discount_description`, `eligible_price`, `discount_percentage`, `start_date`, `end_date`) VALUES (1,'dis','1000','10','2021-02-21 12:07:00','2021-03-15');");       
 
     });
 

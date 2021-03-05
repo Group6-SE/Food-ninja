@@ -78,13 +78,24 @@ async function showDiscount(request,response){
     
     try {
             let discount;
+            
          const result = await Customer.getDiscount(request);
-            discount = JSON.parse(JSON.stringify(result[0]));          
+        // discount = JSON.parse(JSON.stringify(result[0]));   
+        if(result[0]){
+            discount = JSON.parse(JSON.stringify(result[0]));
+         }
+         else{
+             discount=[{}]
+
+         }    
+
+         
+          
          response.render('customer/discounts.html',{discount: discount, req:request});
         
         
     } catch (error) {
-        // response.render('500.html',{err: error.message});
+         response.render('500.html',{err: error.message});
         
     }
     
