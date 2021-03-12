@@ -15,8 +15,8 @@ describe('Manager/ Create Discount validation',()=>{
                 discount_description:"test",
                 eligible_price:"1000",
                 discount_percentage:"10",
-                start_date:"2021-03-10 22:27:08",
-                end_date:"2021-03-15 10:27:08"
+                start_date:"2021-03-15 22:27:08",
+                end_date:"2021-03-20 10:27:08"
 
             }    
        }
@@ -59,8 +59,8 @@ describe('Manager/ Create Discount ',()=>{
                 discount_description:"test",
                 eligible_price:"1000",
                 discount_percentage:"10",
-                start_date:"2021-03-10 22:27:08",
-                end_date:"2021-03-15 10:27:08"
+                start_date:"2021-03-15 22:27:08",
+                end_date:"2021-03-20 10:27:08"
     
             }    
        }

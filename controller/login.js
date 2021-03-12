@@ -26,7 +26,7 @@ function generateAuthToken(payload) {
 const login = async (request, response) => {
     const {error} = validateLogIn(request.body);
     if (error) {
-        console.log(error.message);
+       
         return response.render('400.html',{mssg:error.message});
     }
     const email = request.body.email;
@@ -58,7 +58,7 @@ const login = async (request, response) => {
 
     try {
         password = await getPassword(email, procedure);
-        console.log(password);
+      
          if (!password) {
              return response.render('400.html',{mssg:"User not registered"});
         }
