@@ -15,7 +15,7 @@ describe('GET /login',()=>{
 
     });
 
-    it('if no user logged in should return customer dashboard',async ()=>{
+    it('if no user logged in should return manager dashboard',async ()=>{
         
         const res =await supertest(server).get('/login');
         expect(res.status).toBe(200);
